@@ -1,20 +1,18 @@
-﻿<MudNavMenu>
-    <MudNavLink Href="/dashboard">Dashboard</MudNavLink>
-    <MudNavLink Href="/servers">Servers</MudNavLink>
-    <MudNavGroup Title="Settings" Expanded="true">
-        <MudNavLink Href="/users">Users</MudNavLink>
-        <MudNavLink Href="/security">Security</MudNavLink>
-    </MudNavGroup>
-    <MudNavLink Href="/about">About</MudNavLink>
-</MudNavMenu>
-
+﻿<MudDrawer @bind-Open="SidebarOpen">
+    <MudDrawerHeader>
+        <MudAvatar Image="assets/acount.png" Size= "Size.Large" />
+        <MudText Typo="Typo.h5" Color="Color.Primary">Catalog</MudText>
+    </MudDrawerHeader>
+    <MudNavMenu>
+        <MudNavLink Icon="@Icons.Filled.Home" Href="/">Home</MudNavLink>
+        <MudNavGroup Title="Management" Expanded="false" Icon="@Icons.Filled.Dashboard">           
+            <MudNavLink Href="/image" IconColor="Color.Success"  Icon="@Icons.Filled.Camera">Images</MudNavLink>
+            <MudNavLink Href="/product" Icon="@Icons.Filled.Article">Products</MudNavLink>
+        </MudNavGroup>
+        <MudNavLink Href="/about" IconColor="Color.Info" Icon="@Icons.Filled.Info">About</MudNavLink>
+    </MudNavMenu>
+</MudDrawer>
 @code {
-    private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
+    [Parameter]
+    public bool SidebarOpen { get; set; }
 }
