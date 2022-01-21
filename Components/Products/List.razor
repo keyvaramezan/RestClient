@@ -1,0 +1,36 @@
+﻿<MudTable ServerData="GetProductData" FixedHeader="true" FixedFooter="true" MultiSelection="true" Dense="true" Hover="true" @ref="_table" T="Product">
+
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Products</MudText>
+        <MudSpacer />
+        <MudTextField T="string" ValueChanged="OnSearch" Placeholder="Search" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortLabel="Id" T="Product" InitialDirection="SortDirection.Descending">Id</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="Name" T="Product">Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="Price" T="Product">Price</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="Description" T="Product">Description</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="Product">Images</MudTableSortLabel></MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Price">@context.Price</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
+        <MudTd DataLabel="Images">images</MudTd>
+    </RowTemplate>
+
+    <NoRecordsContent>
+        <MudText>No matching records found</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Loading...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[]{2, 20, 30}" RowsPerPageString="Product per Page"/>
+    </PagerContent>
+
+</MudTable>

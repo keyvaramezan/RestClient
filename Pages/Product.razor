@@ -1,6 +1,12 @@
 ﻿@page "/product"
+@using RestClient.Components.Products
 <h3>Product Management</h3>
-<RestClient.Component.Product.List />
+<MudButtonGroup>
+    <MudIconButton Icon="@Icons.Material.Rounded.Add" Color="Color.Success" />
+    <MudIconButton Icon="@Icons.Material.Rounded.Edit" Color="Color.Info"/>
+    <MudIconButton Icon="@Icons.Material.Rounded.Delete" Color="Color.Error"/>
+</MudButtonGroup>
+<List />
 
 @code {
 
