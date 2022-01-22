@@ -16,7 +16,7 @@ namespace RestClient.Services
         }
         public async Task<PagedList<Product>> GetProducts(SearchRequestDto request)
         {
-            await Task.Delay(700);
+            //await Task.Delay(700);
             var queryStringParam = new Dictionary<string, string>
             {
                 ["PageIndex"] = request.PageIndex.ToString(),

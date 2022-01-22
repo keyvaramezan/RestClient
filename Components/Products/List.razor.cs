@@ -36,5 +36,9 @@ namespace RestClient.Components.Products
             _table.ReloadServerData();
 
         }
+        private void OnSelectedItemsChanged(HashSet<Product> selecteds)
+        {
+            Console.WriteLine(selecteds.Count);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿<MudTable ServerData="GetProductData" FixedHeader="true" FixedFooter="true" MultiSelection="true" Dense="true" Hover="true" @ref="_table" T="Product">
+﻿<MudTable ServerData="GetProductData" FixedHeader="true" FixedFooter="true" SelectedItemsChanged = "OnSelectedItemsChanged" MultiSelection="true" Dense="true" Hover="true" @ref="_table" T="Product">
 
     <ToolBarContent>
         <MudText Typo="Typo.h6">Products</MudText>
@@ -11,8 +11,8 @@
         <MudTh><MudTableSortLabel SortLabel="Id" T="Product" InitialDirection="SortDirection.Descending">Id</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="Name" T="Product">Name</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortLabel="Price" T="Product">Price</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortLabel="Description" T="Product">Description</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel T="Product">Images</MudTableSortLabel></MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh>Images</MudTh>
     </HeaderContent>
 
     <RowTemplate>
@@ -20,7 +20,7 @@
         <MudTd DataLabel="Name">@context.Name</MudTd>
         <MudTd DataLabel="Price">@context.Price</MudTd>
         <MudTd DataLabel="Description">@context.Description</MudTd>
-        <MudTd DataLabel="Images">images</MudTd>
+        <MudTd DataLabel="Images"><MudIcon Icon="@Icons.Material.Rounded.PhotoLibrary" Color="Color.Info" Size="Size.Medium"/></MudTd>
     </RowTemplate>
 
     <NoRecordsContent>
