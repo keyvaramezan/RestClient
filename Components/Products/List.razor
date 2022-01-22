@@ -1,4 +1,4 @@
-﻿<MudTable ServerData="GetProductData" FixedHeader="true" FixedFooter="true" SelectedItemsChanged = "OnSelectedItemsChanged" MultiSelection="true" Dense="true" Hover="true" @ref="_table" T="Product">
+﻿<MudTable ServerData="GetProductData" FixedHeader="true" FixedFooter="true" SelectedItemsChanged="OnSelectedItemsChanged" MultiSelection="true" Dense="true" Hover="true" @ref="_table" T="Product">
 
     <ToolBarContent>
         <MudText Typo="Typo.h6">Products</MudText>
@@ -20,7 +20,9 @@
         <MudTd DataLabel="Name">@context.Name</MudTd>
         <MudTd DataLabel="Price">@context.Price</MudTd>
         <MudTd DataLabel="Description">@context.Description</MudTd>
-        <MudTd DataLabel="Images"><MudIcon Icon="@Icons.Material.Rounded.PhotoLibrary" Color="Color.Info" Size="Size.Medium"/></MudTd>
+        <MudTd DataLabel="Images">
+            <MudIcon Title="View Image Gallery" Icon="@Icons.Material.Rounded.PhotoLibrary" Color="Color.Info" Size="Size.Medium" />
+        </MudTd>
     </RowTemplate>
 
     <NoRecordsContent>
@@ -30,7 +32,7 @@
         <MudText>Loading...</MudText>
     </LoadingContent>
     <PagerContent>
-        <MudTablePager PageSizeOptions="new int[]{2, 20, 30}" RowsPerPageString="Product per Page"/>
+        <MudTablePager PageSizeOptions="new int[]{2, 20, 30}" RowsPerPageString="Product per Page" />
     </PagerContent>
 
 </MudTable>
