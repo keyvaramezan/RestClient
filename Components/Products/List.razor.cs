@@ -8,7 +8,7 @@ namespace RestClient.Components.Products
     public partial class List
     {
         [Inject]
-        public IProductService Service { get; set; }
+        public IProductService? Service { get; set; }
         private string? _searchText = "";
         private MudTable<Product>? _table;
         public async Task<TableData<Product>> GetProductData(TableState state)
@@ -21,11 +21,11 @@ namespace RestClient.Components.Products
                 PageIndex = state.Page+1,
                 PageSize = state.PageSize,
                 Sort = sort,
-                SearchText = _searchText
+                SearchText = _searchText!
             };
 
             var tableData = new TableData<Product>();
-            var result = await Service.GetProducts(request);
+            var result = await Service!.GetProducts(request);
             tableData.TotalItems = result.TotalCount;
             tableData.Items = result;
             return await Task.FromResult(tableData);
@@ -33,7 +33,7 @@ namespace RestClient.Components.Products
         public void OnSearch(String text)
         {
             _searchText = text;
-            _table.ReloadServerData();
+            _table!.ReloadServerData();
 
         }
         private void OnSelectedItemsChanged(HashSet<Product> selecteds)
