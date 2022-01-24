@@ -2,12 +2,35 @@
 @using RestClient.Components.Products
 <h3>Product Management</h3>
 <MudButtonGroup Class="mb-2">
-    <MudIconButton Icon="@Icons.Material.Rounded.Add" Color="Color.Primary" />
-    <MudIconButton Icon="@Icons.Material.Rounded.Edit" Color="Color.Warning"/>
-    <MudIconButton Icon="@Icons.Material.Rounded.Delete" Color="Color.Error"/>
+    <MudIconButton Icon="@Icons.Material.Rounded.Add" Color="Color.Primary" Title="Add New Product" />
+    <MudIconButton Icon="@Icons.Material.Rounded.Edit" Disabled = "disableEdite" Color="Color.Warning" Title="Edite Product" />
+    <MudIconButton Icon="@Icons.Material.Rounded.Delete" Disabled = "disableDelete" Color="Color.Error" Title="Delete Products"/>
 </MudButtonGroup>
-<List />
+<List OnSelectedProductsChanged = "OnSelectedProductsChangedHandler" />
 
 @code {
+    private bool disableEdite = true;
+    private bool disableDelete = true;
+    private int[] selectedIds = new int[0];
+    private void OnSelectedProductsChangedHandler(SelectedProductEventArgs args)
+    {
+        selectedIds = args.SelectedItemIds;
 
+        if (selectedIds.Length == 0)
+        {
+            disableEdite = true;
+            disableDelete = true;
+        }
+        else if(selectedIds.Length == 1)
+        {
+            disableEdite = false;
+            disableDelete = false;
+        }
+        else
+        {
+            disableEdite = true;
+            disableDelete = false;
+        }
+
+    }
 }

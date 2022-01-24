@@ -11,6 +11,8 @@ namespace RestClient.Components.Products
         public IProductService? Service { get; set; }
         private string? _searchText = "";
         private MudTable<Product>? _table;
+        [Parameter]
+        public EventCallback<SelectedProductEventArgs> OnSelectedProductsChanged { get; set; }
         public async Task<TableData<Product>> GetProductData(TableState state)
         {
             var sortDirection = state.SortDirection == SortDirection.Ascending ? "asc" : "desc";
@@ -18,7 +20,7 @@ namespace RestClient.Components.Products
             var sort = $"{sortFiled} {sortDirection}";
             var request = new SearchRequestDto
             {
-                PageIndex = state.Page+1,
+                PageIndex = state.Page + 1,
                 PageSize = state.PageSize,
                 Sort = sort,
                 SearchText = _searchText!
@@ -38,7 +40,11 @@ namespace RestClient.Components.Products
         }
         private void OnSelectedItemsChanged(HashSet<Product> selecteds)
         {
-            Console.WriteLine(selecteds.Count);
+            int[] ids = selecteds.Select(p => p.Id).ToArray();
+            var eventArgs = new SelectedProductEventArgs(ids);
+            OnSelectedProductsChanged.InvokeAsync(eventArgs);
+
+
         }
     }
 }
