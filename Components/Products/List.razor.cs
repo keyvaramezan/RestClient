@@ -44,7 +44,11 @@ namespace RestClient.Components.Products
             var eventArgs = new SelectedProductEventArgs(ids);
             OnSelectedProductsChanged.InvokeAsync(eventArgs);
 
-
+        }
+        public void Reload()
+        {
+            _table!.ReloadServerData();
+            _table.SelectedItems.Clear();
         }
     }
 }

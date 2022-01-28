@@ -1,17 +1,28 @@
 ﻿@page "/product"
+@inject IDialogService DialogService
 @using RestClient.Components.Products
 <h3>Product Management</h3>
 <MudButtonGroup Class="mb-2">
-    <MudIconButton Icon="@Icons.Material.Rounded.Add" Color="Color.Primary" Title="Add New Product" />
-    <MudIconButton Icon="@Icons.Material.Rounded.Edit" Disabled = "disableEdite" Color="Color.Warning" Title="Edite Product" />
-    <MudIconButton Icon="@Icons.Material.Rounded.Delete" Disabled = "disableDelete" Color="Color.Error" Title="Delete Products"/>
+    <MudIconButton Icon="@Icons.Material.Rounded.Add" Color="Color.Primary" Title="Add New Product" OnClick="Add" />
+    <MudIconButton Icon="@Icons.Material.Rounded.Edit" Disabled="disableEdite" Color="Color.Warning" Title="Edit Product" OnClick="Edit" />
+    <MudIconButton Icon="@Icons.Material.Rounded.Delete" Disabled="disableDelete" Color="Color.Error" Title="Delete Products" />
 </MudButtonGroup>
-<List OnSelectedProductsChanged = "OnSelectedProductsChangedHandler" />
+<List OnSelectedProductsChanged="OnSelectedProductsChangedHandler" @ref="_list"/>
 
 @code {
     private bool disableEdite = true;
     private bool disableDelete = true;
     private int[] selectedIds = new int[0];
+    private RestClient.Components.Products.List? _list;
+    private DialogOptions dialogOptions = new DialogOptions
+        {
+            CloseButton = true,
+            CloseOnEscapeKey = true,
+            Position = DialogPosition.TopCenter,
+            MaxWidth = MaxWidth.ExtraSmall,
+            FullWidth = true
+        };
+
     private void OnSelectedProductsChangedHandler(SelectedProductEventArgs args)
     {
         selectedIds = args.SelectedItemIds;
@@ -21,7 +32,7 @@
             disableEdite = true;
             disableDelete = true;
         }
-        else if(selectedIds.Length == 1)
+        else if (selectedIds.Length == 1)
         {
             disableEdite = false;
             disableDelete = false;
@@ -31,6 +42,24 @@
             disableEdite = true;
             disableDelete = false;
         }
-
+    }
+    private async void Add()
+    {
+        var result = await DialogService.Show<Create>("Add New Product", dialogOptions).Result;
+        if (!result.Cancelled)
+        {
+            _list!.Reload();
+        }
+    }
+    private async void Edit()
+    {
+        var productId = selectedIds[0];
+        var parameters = new DialogParameters();
+        parameters.Add("productId", productId);
+        var result = await DialogService.Show<Edit>("Edite Product", parameters, dialogOptions).Result;
+        if (!result.Cancelled)
+        {
+            _list!.Reload();
+        }
     }
 }

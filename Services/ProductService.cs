@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 using RestClient.Models;
 using RestClient.Services.Core;
+using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace RestClient.Services
@@ -41,6 +42,23 @@ namespace RestClient.Services
          
             var result = new PagedList<Product>(products, totalCout);
             return await Task.FromResult(result);
+        }
+
+        public async Task<bool> AddProduct(AddProductDto product)
+        {
+            using var response = await _http.PostAsJsonAsync("product", product);
+            return response.IsSuccessStatusCode;
+        }
+
+        public  Task<Product> GetProductById(int productId)
+        {
+           return  _http.GetFromJsonAsync<Product>($"product/{productId}")!;
+        }
+
+        public async Task<bool> EditProduct(int productId, EditProductDto product)
+        {
+            using var response = await _http.PutAsJsonAsync($"product/{productId}", product);
+            return response.IsSuccessStatusCode;
         }
     }
 }

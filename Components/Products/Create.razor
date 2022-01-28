@@ -1,0 +1,15 @@
+﻿
+<MudDialog>
+    <DialogContent>
+        <EditForm EditContext="_context">
+            <MudTextField Label="Name" @bind-Value="_model.Name" For="(()=> _model.Name)"
+                HelperText="Max 20 characters that must be are letters"/>
+            <MudTextField Label="Price" @bind-Value="_model.Price" For="(()=> _model.Price)"/>
+            <MudTextField Label="Description" @bind-Value="_model.Description" Lines="3"/>
+        </EditForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
