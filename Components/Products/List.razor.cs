@@ -15,6 +15,7 @@ namespace RestClient.Components.Products
         public EventCallback<SelectedProductEventArgs> OnSelectedProductsChanged { get; set; }
         public async Task<TableData<Product>> GetProductData(TableState state)
         {
+            Console.WriteLine();
             var sortDirection = state.SortDirection == SortDirection.Ascending ? "asc" : "desc";
             var sortFiled = state.SortLabel == "" ? "Id" : state.SortLabel;
             var sort = $"{sortFiled} {sortDirection}";
@@ -34,11 +35,10 @@ namespace RestClient.Components.Products
         }
         public async Task OnSearch(String text)
         {
-            if(string.IsNullOrEmpty(text))
-            {
-                return;
-            }
-
+            //if(string.IsNullOrEmpty(text))
+            //{
+            //    return;
+            //}
             _searchText = text;
 
             await _table!.ReloadServerData();

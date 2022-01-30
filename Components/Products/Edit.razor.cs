@@ -28,6 +28,7 @@ namespace RestClient.Components.Products
            // await Task.Delay(3000);
            _context = new EditContext(_model);
            var result = await Service!.GetProductById(productId);
+            _isLoading = false;
             _model.Name = result.Name;
             _model.Description = result.Description;
             _model.Price = result.Price;

@@ -23,6 +23,7 @@ namespace RestClient.Services
                 ["PageIndex"] = request.PageIndex.ToString(),
                 ["PageSize"] = request.PageSize.ToString(),
                 ["Sort"] = request.Sort,
+                //["SearchText"] = request.SearchText
             };
             if (!string.IsNullOrEmpty(request.SearchText))
             {

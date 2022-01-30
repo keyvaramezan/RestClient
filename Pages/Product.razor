@@ -3,6 +3,8 @@
 @inject IProductService Service
 @inject ISnackbar Snackbar;
 @using RestClient.Components.Products
+
+<PageTitle>Prodoct Management</PageTitle>
 <h3>Product Management</h3>
 <MudButtonGroup Class="mb-2">
     <MudIconButton Icon="@Icons.Material.Rounded.Add" Color="Color.Primary" Title="Add New Product" OnClick="Add" />
@@ -73,24 +75,20 @@
     }
     private async void Delete()
     {
+        int[] ids = selectedIds;
+        _list!.CleareSelectedItems();
         disableEdite = true;
         disableDelete = true;
         var s = selectedIds.Length == 1 ? "" : "s";
         bool? confirm = await DialogService.ShowMessageBox("Delete",
-        $"Are you sure to delet {selectedIds.Length} product{s}?",
+        $"Are you sure to delet {ids.Length} product{s}?",
         yesText: "Delete!",
         cancelText: "Cancle");
-        _list!.CleareSelectedItems();
 
-        if (confirm == null) return;
+        if (!confirm.Value) return;
 
-        selectedIds.ToList().ForEach (async id => await Service.DeleteProduct(id));
-        
+        ids.ToList().ForEach(async id => await Service.DeleteProduct(id));
         await _list!.ReloadAsync();
-
-        
-        
-        Snackbar!.Add($"{selectedIds.Length}  Product{s} deleted successfull", Severity.Success);
-        
+        Snackbar!.Add($"{ids.Length}  Product{s} deleted successfull", Severity.Success);
     }
 }
