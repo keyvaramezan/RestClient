@@ -60,5 +60,11 @@ namespace RestClient.Services
             using var response = await _http.PutAsJsonAsync($"product/{productId}", product);
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<bool> DeleteProduct(int productId)
+        {
+            using var response = await _http.DeleteAsync($"product/{productId}");
+            return response.IsSuccessStatusCode;
+        }
     }
 }

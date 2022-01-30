@@ -45,10 +45,13 @@ namespace RestClient.Components.Products
             OnSelectedProductsChanged.InvokeAsync(eventArgs);
 
         }
-        public void Reload()
+        public async Task ReloadAsync()
         {
-            _table!.ReloadServerData();
-            _table.SelectedItems.Clear();
+           await _table!.ReloadServerData();
+        }
+        public void CleareSelectedItems()
+        {
+            _table!.SelectedItems.Clear();
         }
     }
 }

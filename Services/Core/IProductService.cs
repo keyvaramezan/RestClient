@@ -8,5 +8,6 @@ namespace RestClient.Services.Core
         Task<bool> AddProduct(AddProductDto product);
         Task<Product> GetProductById(int productId);
         Task<bool> EditProduct(int productId, EditProductDto product);
+        Task<bool> DeleteProduct(int productId);
     }
 }

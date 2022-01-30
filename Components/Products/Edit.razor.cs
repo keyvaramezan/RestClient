@@ -25,7 +25,7 @@ namespace RestClient.Components.Products
         protected async override Task OnInitializedAsync()
         {
            _context = new EditContext(_model);
-           var result = await Service.GetProductById(productId);
+           var result = await Service!.GetProductById(productId);
             _model.Name = result.Name;
             _model.Description = result.Description;
             _model.Price = result.Price;

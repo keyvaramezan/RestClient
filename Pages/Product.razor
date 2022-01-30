@@ -1,11 +1,13 @@
 ﻿@page "/product"
 @inject IDialogService DialogService
+@inject IProductService Service
+@inject ISnackbar Snackbar;
 @using RestClient.Components.Products
 <h3>Product Management</h3>
 <MudButtonGroup Class="mb-2">
     <MudIconButton Icon="@Icons.Material.Rounded.Add" Color="Color.Primary" Title="Add New Product" OnClick="Add" />
     <MudIconButton Icon="@Icons.Material.Rounded.Edit" Disabled="disableEdite" Color="Color.Warning" Title="Edit Product" OnClick="Edit" />
-    <MudIconButton Icon="@Icons.Material.Rounded.Delete" Disabled="disableDelete" Color="Color.Error" Title="Delete Products" />
+    <MudIconButton Icon="@Icons.Material.Rounded.Delete" Disabled="disableDelete" Color="Color.Error" Title="Delete Products" OnClick="Delete" />
 </MudButtonGroup>
 <List OnSelectedProductsChanged="OnSelectedProductsChangedHandler" @ref="_list"/>
 
@@ -48,18 +50,46 @@
         var result = await DialogService.Show<Create>("Add New Product", dialogOptions).Result;
         if (!result.Cancelled)
         {
-            _list!.Reload();
+            await  _list!.ReloadAsync();
         }
     }
     private async void Edit()
     {
+        disableEdite = true;
+        disableDelete = true; 
         var productId = selectedIds[0];
         var parameters = new DialogParameters();
         parameters.Add("productId", productId);
         var result = await DialogService.Show<Edit>("Edite Product", parameters, dialogOptions).Result;
         if (!result.Cancelled)
         {
-            _list!.Reload();
+            await _list!.ReloadAsync();
         }
+
+        _list!.CleareSelectedItems();
+        //OnSelectedProductsChangedHandler(new SelectedProductEventArgs(new int[0]));
+
+    }
+    private async void Delete()
+    {
+        disableEdite = true;
+        disableDelete = true;
+        var s = selectedIds.Length == 1 ? "" : "s";
+        bool? confirm = await DialogService.ShowMessageBox("Delete",
+        $"Are you sure to delet {selectedIds.Length} product{s}?",
+        yesText: "Delete!",
+        cancelText: "Cancle");
+        _list!.CleareSelectedItems();
+
+        if (confirm == null) return;
+
+        selectedIds.ToList().ForEach (async id => await Service.DeleteProduct(id));
+        
+        await _list!.ReloadAsync();
+
+        
+        
+        Snackbar!.Add($"{selectedIds.Length}  Product{s} deleted successfull", Severity.Success);
+        
     }
 }
