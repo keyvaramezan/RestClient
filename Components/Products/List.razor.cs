@@ -52,9 +52,9 @@ namespace RestClient.Components.Products
         }
         public async Task ReloadAsync()
         {
-            await _table!.ReloadServerData();
+           await _table!.ReloadServerData();
         }
-        public void ClearSelectedItem()
+        public void CleareSelectedItems()
         {
             _table!.SelectedItems.Clear();
         }
