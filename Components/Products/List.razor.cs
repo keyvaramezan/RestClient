@@ -32,11 +32,16 @@ namespace RestClient.Components.Products
             tableData.Items = result;
             return await Task.FromResult(tableData);
         }
-        public void OnSearch(String text)
+        public async Task OnSearch(String text)
         {
-            _searchText = text;
-            _table!.ReloadServerData();
+            if(string.IsNullOrEmpty(text))
+            {
+                return;
+            }
 
+            _searchText = text;
+
+            await _table!.ReloadServerData();
         }
         private void OnSelectedItemsChanged(HashSet<Product> selecteds)
         {
@@ -45,10 +50,13 @@ namespace RestClient.Components.Products
             OnSelectedProductsChanged.InvokeAsync(eventArgs);
 
         }
-        public void Reload()
+        public async Task ReloadAsync()
         {
-            _table!.ReloadServerData();
-            _table.SelectedItems.Clear();
+            await _table!.ReloadServerData();
+        }
+        public void ClearSelectedItem()
+        {
+            _table!.SelectedItems.Clear();
         }
     }
 }

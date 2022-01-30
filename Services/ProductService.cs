@@ -50,14 +50,21 @@ namespace RestClient.Services
             return response.IsSuccessStatusCode;
         }
 
-        public  Task<Product> GetProductById(int productId)
+        public async  Task<Product> GetProductById(int productId)
         {
-           return  _http.GetFromJsonAsync<Product>($"product/{productId}")!;
+            var result = await _http.GetFromJsonAsync<Product>($"product/{productId}");
+           return result!;
         }
 
         public async Task<bool> EditProduct(int productId, EditProductDto product)
         {
             using var response = await _http.PutAsJsonAsync($"product/{productId}", product);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteProduct(int productId)
+        {
+            using var response = await _http.DeleteAsync($"product/{productId}");
             return response.IsSuccessStatusCode;
         }
     }

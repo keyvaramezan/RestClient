@@ -4,16 +4,17 @@
 <h3>Product Management</h3>
 <MudButtonGroup Class="mb-2">
     <MudIconButton Icon="@Icons.Material.Rounded.Add" Color="Color.Primary" Title="Add New Product" OnClick="Add" />
-    <MudIconButton Icon="@Icons.Material.Rounded.Edit" Disabled="disableEdite" Color="Color.Warning" Title="Edit Product" OnClick="Edit" />
-    <MudIconButton Icon="@Icons.Material.Rounded.Delete" Disabled="disableDelete" Color="Color.Error" Title="Delete Products" />
+    <MudIconButton Icon="@Icons.Material.Rounded.Edit" Disabled="disableEdite" Color="Color.Warning" Title="Edit Product" OnClick="Edit"/>
+    <MudIconButton Icon="@Icons.Material.Rounded.Delete" Disabled="disableDelete" Color="Color.Error" Title="Delete Products" OnClick="Delete" />
 </MudButtonGroup>
 <List OnSelectedProductsChanged="OnSelectedProductsChangedHandler" @ref="_list"/>
 
 @code {
-    private bool disableEdite = true;
+    public bool disableEdite = true;
     private bool disableDelete = true;
     private int[] selectedIds = new int[0];
     private RestClient.Components.Products.List? _list;
+
     private DialogOptions dialogOptions = new DialogOptions
         {
             CloseButton = true,
@@ -48,18 +49,30 @@
         var result = await DialogService.Show<Create>("Add New Product", dialogOptions).Result;
         if (!result.Cancelled)
         {
-            _list!.Reload();
+            await _list!.ReloadAsync();
         }
     }
     private async void Edit()
     {
+        disableDelete = true;
+        disableEdite = true;
+        _list!.ClearSelectedItem();
         var productId = selectedIds[0];
         var parameters = new DialogParameters();
         parameters.Add("productId", productId);
         var result = await DialogService.Show<Edit>("Edite Product", parameters, dialogOptions).Result;
         if (!result.Cancelled)
         {
-            _list!.Reload();
+            await _list!.ReloadAsync();
         }
+    }
+    private async void Delete()
+    {
+        var result = await DialogService.ShowMessageBox(
+            "Delete",
+            $"Are you sure to delete {selectedIds.Length} products?",
+            "Delete!",
+            "Cancle");
+            if(result == null)  return;
     }
 }

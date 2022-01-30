@@ -24,11 +24,14 @@ namespace RestClient.Components.Products
         private bool _isLoading = false;
         protected async override Task OnInitializedAsync()
         {
+            _isLoading = true;
+           // await Task.Delay(3000);
            _context = new EditContext(_model);
-           var result = await Service.GetProductById(productId);
-            _model.Name = result.Name;
-            _model.Description = result.Description;
-            _model.Price = result.Price;
+           var result = await Service!.GetProductById(productId);
+           _isLoading = false;
+           _model.Name = result.Name;
+           _model.Description = result.Description;
+           _model.Price = result.Price;
         }
         [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
 
@@ -39,12 +42,12 @@ namespace RestClient.Components.Products
             var result = await Service!.EditProduct(productId ,_model);
             if (!result)
             {
-                Snackbar!.Add("Adding new product failed", Severity.Error);
+                Snackbar!.Add("Editing new product failed", Severity.Error);
                 return;
             }
             else
             {
-                Snackbar!.Add("Adding new product success", Severity.Success);
+                Snackbar!.Add("Editing new product success", Severity.Info);
                 MudDialog!.Close(DialogResult.Ok(true));
             }
 
