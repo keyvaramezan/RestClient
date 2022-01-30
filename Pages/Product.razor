@@ -48,7 +48,7 @@
             disableDelete = false;
         }
     }
-    private async void Add()
+    private async Task Add()
     {
         var result = await DialogService.Show<Create>("Add New Product", dialogOptions).Result;
         if (!result.Cancelled)
@@ -56,7 +56,7 @@
             await  _list!.ReloadAsync();
         }
     }
-    private async void Edit()
+    private async Task Edit()
     {
         disableEdite = true;
         disableDelete = true; 
@@ -73,7 +73,7 @@
         //OnSelectedProductsChangedHandler(new SelectedProductEventArgs(new int[0]));
 
     }
-    private async void Delete()
+    private async Task Delete()
     {
         int[] ids = selectedIds;
         _list!.CleareSelectedItems();
@@ -87,7 +87,7 @@
 
         if (!confirm.Value) return;
 
-        ids.ToList().ForEach(async id => await Service.DeleteProduct(id));
+        ids.ToList().ForEach(async id => await  Service.DeleteProduct(id));
         await _list!.ReloadAsync();
         Snackbar!.Add($"{ids.Length}  Product{s} deleted successfull", Severity.Success);
     }
