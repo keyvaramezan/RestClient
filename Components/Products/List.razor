@@ -20,8 +20,8 @@
         <MudTd DataLabel="Name">@context.Name</MudTd>
         <MudTd DataLabel="Price">@context.Price</MudTd>
         <MudTd DataLabel="Description">@context.Description</MudTd>
-        <MudTd DataLabel="Images">
-            <MudIcon Title="View Image Gallery" Icon="@Icons.Material.Rounded.PhotoLibrary" Color="Color.Info" Size="Size.Medium" />
+        <MudTd DataLabel="Images" >
+            <MudIconButton Title="View Image Gallery" Icon="@Icons.Material.Rounded.PhotoLibrary" Color="Color.Info" Size="Size.Medium" OnClick="@(()=> ShowGallery(context.Id))"/>
         </MudTd>
     </RowTemplate>
 

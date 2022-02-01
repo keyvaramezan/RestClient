@@ -1,0 +1,15 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudCarousel Class="mud-width-full" @ref="_carousel" ItemsSource="@_source" @bind-SelectedIndex="selectedIndex" Style="height:200px;" ShowArrows="@_arrows" ShowBullets="@_bullets" AutoCycle="@_autocycle">
+	<ItemTemplate>
+		<div class="d-flex flex-column flex-column justify-center" style="height:100%">
+			<MudIcon Class="mx-auto" Icon="@Icons.Custom.Brands.MudBlazor" Size="@Size.Large" />
+			<MudText Align="@Align.Center" Class="mx-auto">@context</MudText>
+		</div>
+	</ItemTemplate>
+</MudCarousel>
+    </DialogContent>
+    <DialogActions>
+       
+    </DialogActions>
+</MudDialog>
