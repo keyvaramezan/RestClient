@@ -87,8 +87,16 @@
 
         if (!confirm.Value) return;
 
-        ids.ToList().ForEach(async id => await  Service.DeleteProduct(id));
-        await _list!.ReloadAsync();
+        var listIds = ids.ToList();
+
+        foreach (var item in listIds)
+        {
+           await Service.DeleteProduct(item);
+        }
+         await _list!.ReloadAsync();
+        //ids.ToList().ForEach(async id => await  Service.DeleteProduct(id));
+        //await _list!.ReloadAsync();
         Snackbar!.Add($"{ids.Length}  Product{s} deleted successfull", Severity.Success);
+        await _list!.ReloadAsync();
     }
 }
