@@ -12,11 +12,25 @@ namespace RestClient.Components.Products
         private bool _arrows = true;
         private bool _bullets = true;
         private bool _autocycle = true;
-        private IList<string> _source = new List<string>() { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+        private IList<string>? _source = new List<string>(); //{ "item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
         private int selectedIndex = 2;
+         private bool _isLoading = false;
+        
+         [Inject]
+         public IImageService? Service { get; set; }
         
         [Parameter]
         public int productId { get; set; }
+         protected async override Task OnInitializedAsync()
+        {
+            _isLoading = true;
+            //await Task.Delay(3000);
+         
+           var result = await Service!.GetProdcutImages(productId);
+           _source!.Add(result[0].Name!);      
+
+          _isLoading = false;
+        }
     }
 
 }

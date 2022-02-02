@@ -4,6 +4,6 @@ namespace RestClient.Services.Core
 {
     public interface IImageService
     {
-        Task<IEnumerable<ImageDto>>  GetProdcutImages(int ProductId);
+        Task<IList<ImageDto>>  GetProdcutImages(int productId);
     }
 }

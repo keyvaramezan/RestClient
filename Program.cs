@@ -16,4 +16,5 @@ builder.Services.AddScoped(sp => new HttpClient
 });
 builder.Services.AddMudServiceWithSnackbar();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 await builder.Build().RunAsync();
