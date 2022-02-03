@@ -25,7 +25,7 @@ namespace RestClient.Components.Image
         
         [Parameter]
         public int productId { get; set; }
-         private DialogOptions dialogOptions = new DialogOptions
+        private DialogOptions dialogOptions = new DialogOptions
         {
             CloseButton = true,
             CloseOnEscapeKey = true,
@@ -49,7 +49,8 @@ namespace RestClient.Components.Image
         public void AddAsync()
         {
             var parameters = new DialogParameters();
-            DialogService!.Show<Upload>("UploadImages", dialogOptions);
+            parameters.Add("productId", productId);
+            DialogService!.Show<Upload>("UploadImages",parameters, dialogOptions);
         
         }
         public async Task DeleteAsync(int selectedIndex)

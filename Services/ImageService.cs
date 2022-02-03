@@ -1,4 +1,6 @@
+using System.Net.Http.Json;
 using System.Text.Json;
+using Microsoft.AspNetCore.Components.Forms;
 using RestClient.Models;
 using RestClient.Services.Core;
 
@@ -24,6 +26,12 @@ namespace RestClient.Services
             var images =  JsonSerializer.Deserialize<List<ImageDto>>(content, _options);
             var result = new List<ImageDto>(images!);
             return await Task.FromResult(images!);
+        }
+
+        public async Task<bool> UploadImage(int productId, MultipartFormDataContent content)
+        {
+            using var response = await _http.PostAsJsonAsync($"product/{productId}/image/upload", content);
+            return response.IsSuccessStatusCode;
         }
     }
 }
