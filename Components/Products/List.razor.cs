@@ -72,7 +72,7 @@ namespace RestClient.Components.Products
         {
             var parameters = new DialogParameters();
             parameters.Add("productId", productId);
-            DialogService!.Show<Image>("ShowGallery", parameters, dialogOptions);
+            DialogService!.Show<Image.Image>("ShowGallery", parameters, dialogOptions);
         }
     }
 }
