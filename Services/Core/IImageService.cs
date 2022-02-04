@@ -6,6 +6,6 @@ namespace RestClient.Services.Core
     public interface IImageService
     {
         Task<IList<ImageDto>>  GetProdcutImages(int productId);
-        Task<bool> UploadImage(int productId, IEnumerable<IBrowserFile> files);
+        Task<bool> UploadImage(int productId, MultipartFormDataContent content);
     }
 }

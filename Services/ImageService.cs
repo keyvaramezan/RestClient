@@ -29,10 +29,10 @@ namespace RestClient.Services
             return await Task.FromResult(images!);
         }
 
-        public async Task<bool> UploadImage(int productId,IEnumerable<IBrowserFile> files)
+        public async Task<bool> UploadImage(int productId, MultipartFormDataContent content)
         {
 
-            using var response = await _http.PostAsJsonAsync($"product/{productId}/image/upload", files, _options);
+            using var response = await _http.PostAsync($"product/{productId}/image/upload", content);
             Console.WriteLine(response);
             return response.IsSuccessStatusCode;
         }

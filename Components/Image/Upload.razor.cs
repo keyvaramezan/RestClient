@@ -14,21 +14,39 @@ public partial class Upload
     [Inject]
     public IImageService? Service { get; set; }
     [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
-
-    IList<IBrowserFile> files = new List<IBrowserFile>();
+    
+    private List<File> files = new();
+    IList<IBrowserFile> uploadfiles = new List<IBrowserFile>();
     private void UploadFiles(InputFileChangeEventArgs e)
     {
 
         foreach (var file in e.GetMultipleFiles())
         {
-            files.Add(file);
+            uploadfiles.Add(file);
         }
         //TODO upload the files to the server
     }
     public async void Save()
     {
+        long maxFileSize = 1024 * 1024 * 15;
+        using var content = new MultipartFormDataContent();
+        foreach (var file in uploadfiles)
+        {
+            var fileContent = 
+                        new StreamContent(file.OpenReadStream(maxFileSize));
+
+                    fileContent.Headers.ContentType = 
+                        new MediaTypeHeaderValue(file.ContentType);
+
+                    files.Add(new() { Name = file.Name });
+
+                    content.Add(
+                        content: fileContent,
+                        name: "\"files\"",
+                        fileName: file.Name);
+        }
         
-        var result = await Service!.UploadImage(productId, files);
+        var result = await Service!.UploadImage(productId, content);
         if (!result)
         {
             Snackbar!.Add("Upload new images failed", Severity.Error);
@@ -38,6 +56,11 @@ public partial class Upload
         {
             Snackbar!.Add("Upload new images success", Severity.Info);
             MudDialog!.Close(DialogResult.Ok(true));
+            
         }
+    }
+    private class File
+    {
+        public string? Name { get; set; }
     }
 }

@@ -16,13 +16,13 @@ namespace RestClient.Components.Image
         private bool _autocycle = true;
         private IList<string>? _source = new List<string>(); //{ "item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
         private int selectedIndex = 2;
-         private bool _isLoading = false;
-        
-         [Inject]
-         public IImageService? Service { get; set; }
-         [Inject]
+        private bool _isLoading = false;
+
+        [Inject]
+        public IImageService? Service { get; set; }
+        [Inject]
         public IDialogService? DialogService { get; set; }
-        
+
         [Parameter]
         public int productId { get; set; }
         private DialogOptions dialogOptions = new DialogOptions
@@ -33,29 +33,26 @@ namespace RestClient.Components.Image
             MaxWidth = MaxWidth.ExtraSmall,
             FullWidth = true
         };
-         protected async override Task OnInitializedAsync()
+        protected async override Task OnInitializedAsync()
         {
-            _isLoading = true;
-            await Task.Delay(2000);
-           var result = await Service!.GetProdcutImages(productId);
+           _isLoading = true;
+            var result = await Service!.GetProdcutImages(productId);
             _isLoading = false;
-           foreach (var item in result)
-           {
-             var uri = Http!.BaseAddress + item.Name;
-            _source!.Add(uri);  
-           }
-
+            foreach (var item in result)
+            {
+                var uri = Http!.BaseAddress + item.Name;
+                _source!.Add(uri);
+            }
         }
         public void AddAsync()
         {
             var parameters = new DialogParameters();
             parameters.Add("productId", productId);
-            DialogService!.Show<Upload>("UploadImages",parameters, dialogOptions);
-        
+            var result = DialogService!.Show<Upload>("UploadImages", parameters, dialogOptions).Result;
         }
         public async Task DeleteAsync(int selectedIndex)
         {
-            
+
         }
     }
 

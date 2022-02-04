@@ -19,7 +19,7 @@
 @if (files != null)
 {
     <MudList>
-        @foreach (var file in files)
+        @foreach (var file in uploadfiles)
         {
             <MudListItem Icon="@Icons.Filled.AttachFile">
                 @file.Name <code>@file.Size bytes</code>
