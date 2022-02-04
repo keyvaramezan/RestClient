@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Microsoft.AspNetCore.Components.Forms;
@@ -28,9 +29,11 @@ namespace RestClient.Services
             return await Task.FromResult(images!);
         }
 
-        public async Task<bool> UploadImage(int productId, MultipartFormDataContent content)
+        public async Task<bool> UploadImage(int productId,IEnumerable<IBrowserFile> files)
         {
-            using var response = await _http.PostAsJsonAsync($"product/{productId}/image/upload", content);
+
+            using var response = await _http.PostAsJsonAsync($"product/{productId}/image/upload", files, _options);
+            Console.WriteLine(response);
             return response.IsSuccessStatusCode;
         }
     }

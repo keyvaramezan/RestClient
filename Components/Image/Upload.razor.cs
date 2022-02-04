@@ -14,6 +14,7 @@ public partial class Upload
     [Inject]
     public IImageService? Service { get; set; }
     [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+
     IList<IBrowserFile> files = new List<IBrowserFile>();
     private void UploadFiles(InputFileChangeEventArgs e)
     {
@@ -26,21 +27,8 @@ public partial class Upload
     }
     public async void Save()
     {
-        using var content = new MultipartFormDataContent();
-        foreach (var file in files)
-        {
-            var fileContent =
-                        new StreamContent(file.OpenReadStream());
-
-            fileContent.Headers.ContentType =
-                new MediaTypeHeaderValue(file.ContentType);
-            content.Add(
-                content: fileContent,
-                name: "\"files\"",
-                fileName: file.Name);
-        }
-
-        var result = await Service!.UploadImage(productId, content);
+        
+        var result = await Service!.UploadImage(productId, files);
         if (!result)
         {
             Snackbar!.Add("Upload new images failed", Severity.Error);
