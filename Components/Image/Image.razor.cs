@@ -44,11 +44,13 @@ namespace RestClient.Components.Image
                 _source!.Add(uri);
             }
         }
+
         public void AddAsync()
         {
             var parameters = new DialogParameters();
             parameters.Add("productId", productId);
             var result = DialogService!.Show<Upload>("UploadImages", parameters, dialogOptions).Result;
+            _source!.Add($"Item {_source.Count + 1}");
         }
         public async Task DeleteAsync(int selectedIndex)
         {

@@ -15,8 +15,14 @@ public partial class Upload
     public IImageService? Service { get; set; }
     [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
     
+  
+    private RestClient.Components.Image.Image? _image;
+    
     private List<File> files = new();
     IList<IBrowserFile> uploadfiles = new List<IBrowserFile>();
+    
+    
+
     private void UploadFiles(InputFileChangeEventArgs e)
     {
 
@@ -56,7 +62,6 @@ public partial class Upload
         {
             Snackbar!.Add("Upload new images success", Severity.Info);
             MudDialog!.Close(DialogResult.Ok(true));
-            
         }
     }
     private class File
