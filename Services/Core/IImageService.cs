@@ -7,5 +7,9 @@ namespace RestClient.Services.Core
     {
         Task<IList<ImageDto>>  GetProdcutImages(int productId);
         Task<bool> UploadImage(int productId, MultipartFormDataContent content);
+
+        Task<bool> DeleteImage(int imageId, int productId);
+
+
     }
 }

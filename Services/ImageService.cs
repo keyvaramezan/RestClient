@@ -33,7 +33,12 @@ namespace RestClient.Services
         {
 
             using var response = await _http.PostAsync($"product/{productId}/image/upload", content);
-            Console.WriteLine(response);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteImage(int imageId, int productId)
+        {
+            using var response = await _http.DeleteAsync($"product/{productId}/image/imageId?imageId={imageId}");
             return response.IsSuccessStatusCode;
         }
     }

@@ -10,12 +10,14 @@ namespace RestClient.Components.Image
     {
         [Inject]
         private HttpClient? Http { get; set; }
-        private MudCarousel<string>? _carousel;
+        private MudCarousel<ImageDto>? _carousel;
         private bool _arrows = true;
         private bool _bullets = true;
         private bool _autocycle = true;
-        private IList<string>? _source = new List<string>(); //{ "item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+        private IList<ImageDto>? _source = new List<ImageDto>(); //{ "item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
         private int selectedIndex = 2;
+        private IList<int> _imageIds = new List<int>();
+        private int selectedId = 0;
         private bool _isLoading = false;
 
         [Inject]
@@ -35,13 +37,14 @@ namespace RestClient.Components.Image
         };
         protected async override Task OnInitializedAsync()
         {
-           _isLoading = true;
+            _isLoading = true;
             var result = await Service!.GetProdcutImages(productId);
             _isLoading = false;
             foreach (var item in result)
             {
-                var uri = Http!.BaseAddress + item.Name;
-                _source!.Add(uri);
+                item.Name = Http!.BaseAddress + item.Name;
+                _imageIds.Add(item.Id);
+                _source!.Add(item);
             }
         }
 
@@ -50,11 +53,16 @@ namespace RestClient.Components.Image
             var parameters = new DialogParameters();
             parameters.Add("productId", productId);
             var result = DialogService!.Show<Upload>("UploadImages", parameters, dialogOptions).Result;
-            _source!.Add($"Item {_source.Count + 1}");
         }
-        public async Task DeleteAsync(int selectedIndex)
+        public async Task DeleteAsync(ImageDto selectedItem)
         {
-
+            bool? confirm = await DialogService!.ShowMessageBox("Delete",
+            $"Are you sure to delet {selectedItem.Id} Image ?",
+            yesText: "Delete!",
+            cancelText: "Cancle");
+            if (!confirm.Value) return;
+            await Service!.DeleteImage(selectedItem.Id, productId);
+            await this.OnInitializedAsync();
         }
     }
 
